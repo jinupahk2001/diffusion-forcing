@@ -1,4 +1,5 @@
-# Diffusion Forcing: Next-token Prediction Meets Full-Sequence Diffusion
+
+# --Diffusion Forcing: Next-token Prediction Meets Full-Sequence Diffusion--
 
 #### [[Project Website]](https://boyuan.space/diffusion-forcing) [[Paper]](https://arxiv.org/abs/2407.01392)
 
