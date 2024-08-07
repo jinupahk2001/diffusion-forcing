@@ -31,6 +31,8 @@ warmup_steps: 10000
 # diffusion-related
 uncertainty_scale: 1
 chunk_size: ${dataset.episode_len}
+# scheduling_matrix: full_sequence
+# scheduling_matrix: random
 scheduling_matrix: pyramid
 
 diffusion:

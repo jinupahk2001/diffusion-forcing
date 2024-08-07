@@ -144,7 +144,6 @@ class DiffusionForcingPlanning(DiffusionForcingBase):
         # start and goal are numpy arrays of shape (b, obs_dim)
         # start and goal are assumed to be normalized
         # returns plan history of (m, t, b, c), where the last dim of m is the fully diffused plan
-
         batch_size = start.shape[0]
 
         start = self.make_bundle(start)

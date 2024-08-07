@@ -191,13 +191,38 @@ class DiffusionForcingBase(BasePytorchAlgo):
                 return self._generate_pyramid_scheduling_matrix(horizon, self.sampling_timesteps)
             case "trapezoid":
                 return self._generate_trapezoid_scheduling_matrix(horizon, self.uncertainty_scale)
+            case "random": #jnpahk 240807
+                return self._generate_random_scheduling_matrix(horizon, self.uncertainty_scale)
 
     def _generate_pyramid_scheduling_matrix(self, horizon: int, uncertainty_scale: float):
         height = self.sampling_timesteps + int((horizon - 1) * uncertainty_scale) + 1
         scheduling_matrix = np.zeros((height, horizon), dtype=np.int64)
         for m in range(height):
             for t in range(horizon):
-                scheduling_matrix[m, t] = self.sampling_timesteps + int(t * uncertainty_scale) - m
+                scheduling_matrix[m, t] = self.sampling_timesteps + int(t * uncertainty_scale) - m # K - m + t
+
+        return np.clip(scheduling_matrix, 0, self.sampling_timesteps)
+    
+
+
+
+    def _generate_random_scheduling_matrix(self, horizon: int, uncertainty_scale: float):
+        height = self.sampling_timesteps + int((horizon - 1) * uncertainty_scale) + 1 + 50
+        scheduling_matrix = np.zeros((height, horizon), dtype=np.int64)
+        
+        for t in range(horizon):
+            remaining_value = self.sampling_timesteps
+            zero_positions = np.random.choice(height - 1, self.sampling_timesteps, replace=False) + 1
+            zero_positions.sort()
+
+            for m in range(height):
+                if m in zero_positions:
+                    remaining_value -= np.random.randint(0, 10)
+                scheduling_matrix[m, t] = max(remaining_value, 0)
+        print(len(np.clip(scheduling_matrix, 0, self.sampling_timesteps)))
+        
+
+        print(np.clip(scheduling_matrix, 0, self.sampling_timesteps))
 
         return np.clip(scheduling_matrix, 0, self.sampling_timesteps)
 
