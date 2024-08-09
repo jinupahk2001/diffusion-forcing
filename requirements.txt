@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 torch==2.0.1
+=======
+torch==2.4.0
+>>>>>>> 13c928099032ea1b157fb7ee8b3e04743cde9067
 torchvision==0.15.2
 lightning==2.1.2
 wandb==0.17.0
